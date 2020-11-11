@@ -2,14 +2,13 @@ import React from 'react';
 import MemberGrid from "./MemberGrid";
 
 import './App.css';
+import './MemberGrid.css';
 
 function App() {
   return (
     <div className="App">
-      <div>
-        <h3>Members</h3>
-        <MemberGrid />
-      </div>
+      <h3>Active Members of the U.S. House of Representatives</h3>
+      <MemberGrid />
     </div>
   );
 }

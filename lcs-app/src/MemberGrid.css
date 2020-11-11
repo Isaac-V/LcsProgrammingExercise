@@ -1,0 +1,20 @@
+.blue-shade {
+  background-color: #a6d5fc !important;
+}
+
+.red-shade {
+  background-color: #ffd1d1 !important;
+}
+
+.grid-controls {
+  display: flex;
+  flex-direction: horizontal;
+  justify-content: center;
+  margin-top: 4px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.grid-control-button {
+  margin: 4px;
+}
