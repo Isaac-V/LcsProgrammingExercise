@@ -1,12 +1,15 @@
+import React from 'react';
+import MemberGrid from "./MemberGrid";
+
 import './App.css';
-import MemberList from "./MemberList";
 
 function App() {
   return (
-    <div className="App"><div>
-      <h3>Members</h3>
-      <MemberList />
-    </div>
+    <div className="App">
+      <div>
+        <h3>Members</h3>
+        <MemberGrid />
+      </div>
     </div>
   );
 }
