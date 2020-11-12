@@ -1,16 +1,16 @@
 import React from 'react';
-import MemberGrid from "./MemberGrid";
+import MemberGrid from "./MemberGrid.jsx";
 
 import './App.css';
 import './MemberGrid.css';
 
-function App() {
-  return (
-    <div className="App">
-      <h3>Active Members of the U.S. House of Representatives</h3>
-      <MemberGrid />
-    </div>
-  );
+export default class App extends React.Component {
+  render () {
+    return (
+      <div className="App">
+        <h1>Active Members of the U.S. House of Representatives</h1>
+        <MemberGrid />
+      </div>
+    );
+  }
 }
-
-export default App;
