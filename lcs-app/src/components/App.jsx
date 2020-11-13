@@ -1,8 +1,10 @@
 import React from 'react';
-import MemberGrid from "./MemberGrid.jsx";
+import MemberGrid from "./MemberGrid";
+import VoteGrid from "./VoteGrid";
 
 import './App.css';
 import './MemberGrid.css';
+import './VoteGrid.css';
 
 /*
   The App Component controls the main header of the page and the navigation bar.
@@ -29,13 +31,14 @@ export default class App extends React.Component {
     if (this.state.currentView === 'members') {
       view =
         <div>
-          <h1>Members of the U.S. House of Representatives<br></br>116<sup>th</sup> Congress</h1>
+          <h1>Members of the House of Representatives<br></br>116<sup>th</sup> U.S. Congress</h1>
           <MemberGrid />
         </div>
     } else {
       view =
         <div>
-          <h1>Votes of the U.S. House of Representatives<br></br>116<sup>th</sup> Congress</h1>
+          <h1>Votes of the House of Representatives<br></br>116<sup>th</sup> U.S. Congress</h1>
+          <VoteGrid />
         </div>
     }
 
@@ -49,8 +52,8 @@ export default class App extends React.Component {
             checked={this.state.currentView === 'votes'}
             onChange={this.setView} />
 
-          <label className="nav-select" for="members">Members</label>
-          <label className="nav-select" for="votes">Votes</label>
+          <label className="nav-select" htmlFor="members">Members</label>
+          <label className="nav-select" htmlFor="votes">Votes</label>
         </div>
         {view}
       </div>

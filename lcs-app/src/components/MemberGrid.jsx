@@ -1,7 +1,6 @@
 import React from 'react';
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 
-import './MemberGrid.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
@@ -175,7 +174,7 @@ export default class MemberGrid extends React.Component {
         }
         <br></br>
         <h3>Member Status</h3>
-        <div class="selection-controls">
+        <div className="selection-controls">
           <input id="active" type="radio" name="s-status" value=""
             checked={this.state.memberStatus === ''} 
             onChange={this.setFilter} />
@@ -189,10 +188,10 @@ export default class MemberGrid extends React.Component {
             checked={this.state.memberStatus === 'Passed Away'} 
             onChange={this.setFilter} />
 
-          <label className="status-select" for="active">Active</label>
-          <label className="status-select" for="succeeded">Succeeded</label>
-          <label className="status-select" for="resigned">Resigned</label>
-          <label className="status-select" for="passed-away">Passed Away</label>
+          <label className="status-select" htmlFor="active">Active</label>
+          <label className="status-select" htmlFor="succeeded">Succeeded</label>
+          <label className="status-select" htmlFor="resigned">Resigned</label>
+          <label className="status-select" htmlFor="passed-away">Passed Away</label>
         </div>
       </div>
     );

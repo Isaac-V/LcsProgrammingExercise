@@ -1,0 +1,10 @@
+.vote-grid-component-container {
+  display: flex;
+  flex-direction: horizontal;
+  justify-content: center;
+  margin: 36px;
+}
+
+.gold-shade {
+  background-color: #dace93 !important;
+}

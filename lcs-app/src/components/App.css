@@ -1,0 +1,40 @@
+.App {
+  text-align: center;
+}
+
+h1 {
+  color: rgb(3, 0, 85);
+}
+
+.nav-controls {
+  position: fixed;
+  display: flex;
+  flex-direction: horizontal;
+  margin-left: 8px;
+  z-index: 2;
+}
+
+.nav-controls  input{
+  display: none;
+}
+
+.nav-select {
+  position: relative;
+  font-size: 28px;
+  text-align: center;
+  padding: 4px;
+  border: 1px solid rgb(136, 138, 155);
+  cursor: pointer;
+}
+
+#members:checked ~ label[for="members"],
+#votes:checked ~ label[for="votes"] {
+  background: rgb(39, 73, 138);
+  color: #fff;
+}
+
+#members ~ label[for="members"],
+#votes ~ label[for="votes"] {
+  background: rgb(229, 242, 248);
+  color: rgb(0, 0, 0);
+}

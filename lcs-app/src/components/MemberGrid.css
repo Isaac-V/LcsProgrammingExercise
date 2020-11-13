@@ -54,7 +54,7 @@ h3 {
 .status-select {
   text-align: center;
   padding: 4px;
-  margin-left: 4px;
+  margin-left: 2px;
   border: 1px solid rgb(165, 167, 197);
   cursor: pointer;
 }
