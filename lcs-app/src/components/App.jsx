@@ -3,11 +3,9 @@ import MemberGrid from "./MemberGrid";
 import VoteGrid from "./VoteGrid";
 
 import './App.css';
-import './MemberGrid.css';
-import './VoteGrid.css';
 
 /*
-  The App Component controls the main header of the page and the navigation bar.
+  The App Component displays the heading of the page and the navigation buttons.
   It also switches the content of the page based on the user's navigation selection.
 */
 export default class App extends React.Component {
@@ -18,15 +16,18 @@ export default class App extends React.Component {
     };
   }
 
+  // Set page title
   componentDidMount = () => {
     document.title = "116th U.S. Congress"
   }
 
+  // Set page contents based on navigation selection.
   setView = (event) => {
     this.setState({ currentView: event.currentTarget.value });
   }
 
   render() {
+    // Conditionally determine heading and content based on navigation selection.
     let view;
     if (this.state.currentView === 'members') {
       view =

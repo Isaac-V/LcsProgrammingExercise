@@ -1,23 +1,26 @@
 import React from 'react';
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
-import ButtonCellRenderer from "./ButtonCellRenderer";
+import InfoButtonCellRenderer from "./InfoButtonCellRenderer";
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import './VoteGrid.css';
 
 /*
-  The VoteGrid 
+  The VoteGrid Component uses AG-Grid to display useful information about the votes conducted within
+  the House of Representatives of the 116th US Congress. It includes paging functionality as well
+  as the ability to show additional vote count information for each listed event.
 */
 export default class VoteGrid extends React.Component {
   constructor(props) {
     super(props);
     this.getVotes.bind(this);
     this.state = {
-      page: 0,
-      pageCount: 0,
-      rowData: [],
-      voteCounts: {},
-      moreInfoRowData: [],
+      page: 0, // Current page
+      pageCount: 0, // Total number of pages
+      rowData: [], // Vote grid row data
+      voteCounts: {}, // Vote count information for all votes
+      moreInfoRowData: [], // Displayed vote count information
       rowClasses: {
         // apply blue to Democrats
         'blue-shade': function (params) { return params.data.party === 'Democratic'; },
@@ -27,10 +30,12 @@ export default class VoteGrid extends React.Component {
     };
   }
 
+  // Load grid data on mount
   componentDidMount = () => {
     this.updateGridData(this.state.page);
   }
 
+  // Functions for paging buttons and inputs
   setPage = (pageNum) => {
     this.setState({ page: pageNum, moreInfoRowData: [] }, () => this.updateGridData(pageNum));
   }
@@ -62,6 +67,7 @@ export default class VoteGrid extends React.Component {
     }
   }
 
+  // Function for loading grid data and setting state based on the server response
   updateGridData = (pageNum) => {
     this.getVotes(pageNum)
       .then(responseData => {
@@ -73,12 +79,14 @@ export default class VoteGrid extends React.Component {
       });
   }
 
+  // Async function for fetching data from the server
   async getVotes(page) {
     const response = await fetch(
       'https://clerkapi.azure-api.net/Votes/v1/?$filter=superEvent/superEvent/congressNum%20eq%20%27116%27&key=61888da502844defa16dd86096aea78f&$skip=' + page * 10);
     return response.json();
   }
 
+  // Function that transforms the server response data into useable row data for the grid
   getGridData = (votesData) => {
     return votesData.map(vote => {
       return {
@@ -92,6 +100,7 @@ export default class VoteGrid extends React.Component {
     });
   }
 
+  // Function used by the InfoButtonCell to show vote count information for the associated event
   showMoreInfo = (id) => {
     if (this.state.moreInfoRowData !== this.state.voteCounts[id]) {
       this.setState({ moreInfoRowData: this.state.voteCounts[id] });
@@ -101,6 +110,8 @@ export default class VoteGrid extends React.Component {
   }
 
   render() {
+    // Conditionally display vote count information based on the type of vote count (party or candidate)
+    // TODO: Make a better closing UI for the vote count grid
     let moreInfo;
     if (this.state.moreInfoRowData.length > 0) {
       if (this.state.moreInfoRowData[0].party) {
@@ -141,7 +152,7 @@ export default class VoteGrid extends React.Component {
                 domLayout="autoHeight"
                 rowClass='gold-shade'
                 tooltipShowDelay={1000}
-                frameworkComponents={{ buttonCellRenderer: ButtonCellRenderer }}>
+                frameworkComponents={{ buttonCellRenderer: InfoButtonCellRenderer }}>
                 <AgGridColumn field="endDate" width={150} headerName="Date"></AgGridColumn>
                 <AgGridColumn field="voteQuestion" tooltipField='voteQuestion' width={300}></AgGridColumn>
                 <AgGridColumn field="voteType" tooltipField='voteType' width={150}></AgGridColumn>
@@ -154,7 +165,7 @@ export default class VoteGrid extends React.Component {
                   }}></AgGridColumn>
               </AgGridReact>
             </div>
-            {this.state.pageCount > 1 &&
+            {this.state.pageCount > 1 && // Only display paging buttons if there is more than one page
               <div className="grid-controls">
                 <button className="grid-control-button" onClick={this.firstPage} disabled={this.state.page === 0}>
                   &lt;&lt; First Page

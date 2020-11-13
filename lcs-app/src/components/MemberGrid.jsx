@@ -3,19 +3,22 @@ import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import './MemberGrid.css';
 
 /*
-  The MemberGrid 
+  The MemberGrid Component uses AG-Grid to display useful information about the members of the House of 
+  Representatives of the 116th US Congress. It also includes custom sorting logic and buttons
+  for paging and filtering.
 */
 export default class MemberGrid extends React.Component {
   constructor(props) {
     super(props);
-    this.getMembers.bind(this);
+    this.getMembers.bind(this); // Bind async method directly in constructor.
     this.state = {
-      page: 0,
-      pageCount: 0,
-      memberStatus: '',
-      rowData: [],
+      page: 0, // Current page
+      pageCount: 0, // Total pages as reported by the server
+      memberStatus: '', // Current member filter selection
+      rowData: [], // Current row data used by the grid
       rowClasses: {
         // apply blue to Democrats
         'blue-shade': function (params) { return params.data.politicalParty === 'Democrat'; },
@@ -24,20 +27,25 @@ export default class MemberGrid extends React.Component {
       }
     };
 
+    // Instance variables to customize sorting logic for use with an async server call.
+    // State variables were not usable for this due to race conditions in AG-Grid behavior.
     this.sortColumn = '';
     this.sortDirection = '';
     this.executeSort = false;
     this.postSortCalled = false;
   }
 
+  // Load grid data from the server on mount
   componentDidMount = () => {
     this.updateGridData(this.state.page);
   }
 
+  // Helper function for setting the current page and reloading the grid row data
   setPage = (pageNum) => {
     this.setState({ page: pageNum }, () => this.updateGridData(pageNum));
   }
 
+  // Functions for paging buttons and inputs
   firstPage = () => {
     this.setPage(0)
   }
@@ -65,10 +73,12 @@ export default class MemberGrid extends React.Component {
     }
   }
 
+  // Function for setting the filter based on the radio button selection
   setFilter = (event) => {
     this.setState({ memberStatus: event.currentTarget.value }, () => this.setPage(0));
   }
 
+  // Function for loading grid data and setting state based on the server response
   updateGridData = (pageNum) => {
     this.getMembers(pageNum)
       .then(responseData => {
@@ -76,6 +86,7 @@ export default class MemberGrid extends React.Component {
       });
   }
 
+  // Async function for fetching data from the server, applying filtering and sorting using state and instance variables
   async getMembers(page) {
     let sort = this.sortColumn && this.sortDirection
       ? '&$orderby=' + this.sortColumn + ' ' + this.sortDirection
@@ -86,6 +97,7 @@ export default class MemberGrid extends React.Component {
     return response.json();
   }
 
+  // Function that transforms the server response data into useable row data for the grid
   getGridData = (membersData) => {
     return membersData.map(member => {
       let dcOffice = member.addresses.find(address => address.name === "DCOffice");
@@ -106,6 +118,7 @@ export default class MemberGrid extends React.Component {
     });
   }
 
+  // Sorting functions that disable default sorting behavior and use instance variables to coordinate sort resets
   nameComparator = (valueA, valueB, nodeA, nodeB, isInverted) => {
     if (this.sortColumn !== 'familyName' || this.sortDirection !== (isInverted ? 'asc' : 'desc')) {
       this.sortColumn = 'familyName';
@@ -117,6 +130,9 @@ export default class MemberGrid extends React.Component {
     return 0;
   }
 
+  // PostSort is called at the end of each sort operation by the grid, and it is the only function called on
+  // a sort reset, so it must keep track if it has been called twice in a row or if nameComparator has been
+  // called in-between.
   postSort = () => {
     if (this.executeSort) {
       this.executeSort = false;
@@ -154,7 +170,7 @@ export default class MemberGrid extends React.Component {
             <AgGridColumn field="officeAddress" width={400} tooltipField='officeAddress'></AgGridColumn>
           </AgGridReact>
         </div>
-        { this.state.pageCount > 1 &&
+        { this.state.pageCount > 1 && // Only display paging buttons if there is more than one page
           <div className="grid-controls">
             <button className="grid-control-button" onClick={this.firstPage} disabled={this.state.page === 0}>
               &lt;&lt; First Page
