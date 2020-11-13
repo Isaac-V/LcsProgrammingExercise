@@ -1,6 +1,21 @@
-# Getting Started with Create React App
+# Getting Started with LCS App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Installation Steps
+1. Install npm, the download can be found [here](https://nodejs.org/en/).
+2. Execute `npm install` from within the LSC App directory.
+
+## Running the LCS App
+1. Execute `npm start` from within the LCS App directory.
+2. Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Using the LCS App
+### Members View
+The members view is the first page you will see after running the LCS App. It lists useful information about each member of the House of Representatives of the 116th U.S. Congress. The list will only display 10 members at a time, but can be paged through using the paging buttons at the bottom of the member list. The list can also be sorted by the member's last names or filtered by the member's status (active members are displayed by default). The member's are also highlighted in red if they are affiliated with the Republican party or blue if they are affiliated with the Democratic party. 
+
+### Votes View
+The votes view is available by selecting the `Votes` navigation button in the upper-left area of the page. It lists useful information about the voting events of the House of Representatives of the 116th U.S. Congress. The list will only display 10 voting events at a time, but can be paged through using the paging buttons at the bottom of the voting event list. You can see additional vote count information by clicking the icon-button in the `More Info` column of the list. The vote count information can be closed by clicking the icon-button again or by progressing to a different page of voting events. Vote count information is also highlighted to identify vote counts affiliated with the Democratic party (blue) or the Republican party (red). 
 
 ## Available Scripts
 
@@ -21,35 +36,3 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
