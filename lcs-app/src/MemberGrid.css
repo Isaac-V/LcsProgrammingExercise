@@ -34,3 +34,35 @@
   height: 26px;
   font-size: 14px;
 }
+
+h3 {
+  color: rgb(24, 32, 75);
+}
+
+.selection-controls {
+  display: flex;
+  flex-direction: horizontal;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.selection-controls  input{
+  display: none;
+}
+
+.status-select {
+  text-align: center;
+  padding: 4px;
+  margin-left: 4px;
+  border: 1px solid rgb(165, 167, 197);
+  cursor: pointer;
+}
+
+#active:checked ~ label[for="active"],
+#succeeded:checked ~ label[for="succeeded"],
+#resigned:checked ~ label[for="resigned"],
+#passed-away:checked ~ label[for="passed-away"] {
+  background: rgb(39, 73, 138);
+  color: #fff;
+}

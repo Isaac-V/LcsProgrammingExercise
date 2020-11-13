@@ -5,6 +5,9 @@ import './MemberGrid.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
+/*
+  The MemberGrid 
+*/
 export default class MemberGrid extends React.Component {
   constructor(props) {
     super(props);
@@ -12,6 +15,7 @@ export default class MemberGrid extends React.Component {
     this.state = {
       page: 0,
       pageCount: 0,
+      memberStatus: '',
       rowData: [],
       rowClasses: {
         // apply blue to Democrats
@@ -27,9 +31,12 @@ export default class MemberGrid extends React.Component {
     this.postSortCalled = false;
   }
 
+  componentDidMount = () => {
+    this.updateGridData(this.state.page);
+  }
+
   setPage = (pageNum) => {
-    this.setState({ page: pageNum });
-    this.updateGridData(pageNum);
+    this.setState({ page: pageNum }, () => this.updateGridData(pageNum));
   }
 
   firstPage = () => {
@@ -59,8 +66,8 @@ export default class MemberGrid extends React.Component {
     }
   }
 
-  componentDidMount = () => {
-    this.updateGridData(this.state.page);
+  setFilter = (event) => {
+    this.setState({ memberStatus: event.currentTarget.value }, () => this.setPage(0));
   }
 
   updateGridData = (pageNum) => {
@@ -74,7 +81,7 @@ export default class MemberGrid extends React.Component {
     let sort = this.sortColumn && this.sortDirection
       ? '&$orderby=' + this.sortColumn + ' ' + this.sortDirection
       : '';
-    let filter = '&$filter=status ne \'Succeded\' and status ne \'Resigned\' and status ne \'Passed Away\'';
+    let filter = '&$filter=status eq \'' + this.state.memberStatus + '\'';
     const response = await fetch(
       'https://clerkapi.azure-api.net/Members/v1/?key=61888da502844defa16dd86096aea78f&$skip=' + page * 10 + filter + sort);
     return response.json();
@@ -133,7 +140,7 @@ export default class MemberGrid extends React.Component {
   render() {
     return (
       <div>
-        <div className="ag-theme-alpine" style={{ width: 1202, margin: "auto" }}>
+        <div className="ag-theme-alpine" style={{ width: 1202, height: 480, margin: "auto" }}>
           <AgGridReact
             rowData={this.state.rowData}
             rowClassRules={this.state.rowClasses}
@@ -148,21 +155,44 @@ export default class MemberGrid extends React.Component {
             <AgGridColumn field="officeAddress" width={400} tooltipField='officeAddress'></AgGridColumn>
           </AgGridReact>
         </div>
-        <div className="grid-controls">
-          <button className="grid-control-button" onClick={this.firstPage} disabled={this.state.page === 0}>
-            &lt;&lt; First Page
-          </button>
-          <button className="grid-control-button" onClick={this.prevPage} disabled={this.state.page === 0}>
-            &lt; Previous Page
-          </button>
-          <span className="page-title">Page: </span>
-          <input className="page-input" type="number" value={this.state.page + 1} onChange={this.pageFromInput} max={this.state.pageCount}></input>
-          <button className="grid-control-button" onClick={this.nextPage} disabled={this.state.page === this.state.pageCount - 1}>
-            Next Page &gt;
-          </button>
-          <button className="grid-control-button" onClick={this.lastPage} disabled={this.state.page === this.state.pageCount - 1}>
-            Last Page &gt;&gt;
-          </button>
+        { this.state.pageCount > 1 &&
+          <div className="grid-controls">
+            <button className="grid-control-button" onClick={this.firstPage} disabled={this.state.page === 0}>
+              &lt;&lt; First Page
+            </button>
+            <button className="grid-control-button" onClick={this.prevPage} disabled={this.state.page === 0}>
+              &lt; Previous Page
+            </button>
+            <span className="page-title">Page: </span>
+            <input className="page-input" type="number" value={this.state.page + 1} onChange={this.pageFromInput} max={this.state.pageCount}></input>
+            <button className="grid-control-button" onClick={this.nextPage} disabled={this.state.page === this.state.pageCount - 1}>
+              Next Page &gt;
+            </button>
+            <button className="grid-control-button" onClick={this.lastPage} disabled={this.state.page === this.state.pageCount - 1}>
+              Last Page &gt;&gt;
+            </button>
+          </div>
+        }
+        <br></br>
+        <h3>Member Status</h3>
+        <div class="selection-controls">
+          <input id="active" type="radio" name="s-status" value=""
+            checked={this.state.memberStatus === ''} 
+            onChange={this.setFilter} />
+          <input id="succeeded" type="radio" name="s-status" value="Succeded"
+            checked={this.state.memberStatus === 'Succeded'} 
+            onChange={this.setFilter} />
+          <input id="resigned" type="radio" name="s-status" value="Resigned"
+            checked={this.state.memberStatus === 'Resigned'} 
+            onChange={this.setFilter} />
+          <input id="passed-away" type="radio" name="s-status" value="Passed Away"
+            checked={this.state.memberStatus === 'Passed Away'} 
+            onChange={this.setFilter} />
+
+          <label className="status-select" for="active">Active</label>
+          <label className="status-select" for="succeeded">Succeeded</label>
+          <label className="status-select" for="resigned">Resigned</label>
+          <label className="status-select" for="passed-away">Passed Away</label>
         </div>
       </div>
     );
