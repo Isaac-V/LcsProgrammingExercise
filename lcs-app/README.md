@@ -1,4 +1,4 @@
-# Getting Started with LCS App
+# Getting Started with the LCS App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
